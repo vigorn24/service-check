@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+redis  # для Redis (asyncio-redis)
+# pika   # для RabbitMQ (но для async используем aio-pika)
+# aio-pika  # async для RabbitMQ
+# motor # async для MongoDB
+# aiokafka  # async для Kafka
+python-dotenv
