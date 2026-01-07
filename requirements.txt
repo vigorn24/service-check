@@ -8,3 +8,4 @@ redis  # для Redis (asyncio-redis)
 # aiokafka  # async для Kafka
 python-dotenv
 logging
+prometheus-client
