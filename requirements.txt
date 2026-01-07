@@ -7,3 +7,4 @@ redis  # для Redis (asyncio-redis)
 # motor # async для MongoDB
 # aiokafka  # async для Kafka
 python-dotenv
+logging
