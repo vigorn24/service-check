@@ -1,5 +1,5 @@
 from redis.asyncio.cluster import RedisCluster
-from config import config
+from config import settings
 import logging
 from utils.logging_decorators import log_call
 from metrics import SERVICE_CALLS
@@ -9,7 +9,7 @@ from utils.metrics_decorator import service_metric
 logger = logging.getLogger(__name__)
 
 redis_client = RedisCluster.from_url(
-    config.REDIS_URL,
+    settings.redis.url,
     decode_responses=True
 )
 
@@ -17,10 +17,10 @@ redis_client = RedisCluster.from_url(
 @log_call("redis")
 async def write_to_redis(key: str, value: str):
 
-    SERVICE_CALLS.labels(
-        service="redis",
-        function="write"
-    ).inc()
+#    SERVICE_CALLS.labels(
+#        service="redis",
+#        function="write"
+#    ).inc()
 
     await redis_client.set(key, value)
     return {"status": "written"}
@@ -29,10 +29,10 @@ async def write_to_redis(key: str, value: str):
 @log_call("redis")
 async def read_from_redis(key: str):
 
-    SERVICE_CALLS.labels(
-        service="redis",
-        function="read"
-    ).inc()
+#    SERVICE_CALLS.labels(
+#        service="redis",
+#        function="read"
+#    ).inc()
 
     value = await redis_client.get(key)
     return {"value": value if value else None}

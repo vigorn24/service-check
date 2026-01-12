@@ -9,3 +9,5 @@ redis  # для Redis (asyncio-redis)
 python-dotenv
 logging
 prometheus-client
+python-consul
+PyYAML
