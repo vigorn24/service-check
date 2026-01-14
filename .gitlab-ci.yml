@@ -19,7 +19,7 @@ image_build:
     - if [ "$CI_COMMIT_BRANCH" == "master" ] ; then ENVIRONMENT=stage ; fi
     - if [ "$CI_COMMIT_BRANCH" == "production" ] ; then ENVIRONMENT=prod ; fi
     - BUILD_IMAGE_PATH=$( echo ${HARBOR}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME} | tr [:upper:] [:lower:] )
-    - docker build --pull -t ${BUILD_IMAGE_PATH}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+    - docker build --pull -t ${BUILD_IMAGE_PATH}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA} .
     - docker login --username="${REGISTRY_USER_FINTECH}" --password="${REGISTRY_PASSWORD_FINTECH}" ${HARBOR}
     - docker push ${BUILD_IMAGE_PATH}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
 
