@@ -12,8 +12,8 @@ load_dotenv()
 CONSUL_HOST = os.getenv("CONSUL_HOST", "localhost")
 CONSUL_PORT = int(os.getenv("CONSUL_PORT", 8500))
 CONSUL_SCHEME = os.getenv("CONSUL_SCHEME", "http")
-CONSUL_PREFIX = os.getenv("CONSUL_PREFIX", "service-check")
-CONSUL_ACCESS_READ = os.getenv("CONSUL_ACCESS_READ", "service-check")
+CONSUL_PREFIX = os.getenv("CONSUL_PREFIX")
+CONSUL_ACCESS_READ = os.getenv("CONSUL_ACCESS_READ")
 
 
 class RedisConfig(BaseModel):
