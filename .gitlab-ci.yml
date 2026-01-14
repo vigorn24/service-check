@@ -4,7 +4,7 @@ stages:
 
 variables:
   GIT_DEPTH: 0
-  STAGE_RUNNER_TAG: ft-docker-stage
+  STAGE_RUNNER_TAG: ewt2-gitrun01
 
 before_script:
   - export TZ='Europe/Moscow'
