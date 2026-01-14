@@ -18,6 +18,7 @@ CONSUL_ACCESS_READ = os.getenv("CONSUL_ACCESS_READ")
 
 class RedisConfig(BaseModel):
     url: str
+    password: str | None = None
 
 
 class RabbitMQConfig(BaseModel):
