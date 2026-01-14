@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+redis
+python-dotenv
+logging
+prometheus-client
+python-consul
+PyYAML
