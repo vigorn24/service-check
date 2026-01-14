@@ -11,7 +11,7 @@ before_script:
 
 image_build:
   stage: image_build
-  image: ${DOCKER_IMAGE_BUILD}
+  image: sregistry.mts.ru/fintech/docker:latest
   tags:
     - ${STAGE_RUNNER_TAG}
   script:
