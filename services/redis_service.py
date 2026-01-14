@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 redis_client = RedisCluster.from_url(
     settings.redis.url,
+    password=settings.redis.password,
     decode_responses=True
 )
 
