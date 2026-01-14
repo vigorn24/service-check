@@ -1,0 +1,24 @@
+stages:
+  - image_build
+  - delivery-k8s
+
+variables:
+  GIT_DEPTH: 0
+
+before_script:
+  - export TZ='Europe/Moscow'
+
+image_build:
+  stage: image_build
+  image: ${DOCKER_IMAGE_BUILD}
+  tags:
+    - ${STAGE_RUNNER_TAG}
+  script:
+    - set -x
+    - if [ "$CI_COMMIT_BRANCH" == "master" ] ; then ENVIRONMENT=stage ; fi
+    - if [ "$CI_COMMIT_BRANCH" == "production" ] ; then ENVIRONMENT=prod ; fi
+    - docker build --pull -t ${BUILD_IMAGE_PATH}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+    - docker login --username="${REGISTRY_USER_FINTECH}" --password="${REGISTRY_PASSWORD_FINTECH}" ${HARBOR}
+    - docker push ${BUILD_IMAGE_PATH}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+
+
