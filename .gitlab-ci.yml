@@ -37,6 +37,11 @@ delivery-k8s:
     - set -x
     - IMAGEREPOSITORY=$( echo ${HARBOR}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME} | tr [:upper:] [:lower:] )
     - STAGE_INGRESS_PATH='/('${CI_PROJECT_NAME}'(/|$)(.*))'
+    - CONSUL_HOST=${STAGE_CONSUL_HOST}
+    - CONSUL_PORT=${STAGE_CONSUL_PORT}
+    - CONSUL_ACCESS_READ=${STAGE_CONSUL_ACCESS_READ}
+    - CONSUL_PATH=${STAGE_CONSUL_PATH}
+    - echo ${CONSUL_HOST}, ${CONSUL_PORT}, ${CONSUL_ACCESS_READ}, ${CONSUL_PATH},
     - echo ${STAGE_INGRESS_PATH}
     - export KUBECONFIG=${STAGE_KUBECONFIG}
     - helm list -a -n ${NAMESPACE}
@@ -51,10 +56,10 @@ delivery-k8s:
                         --set useStrategy=true \
                         --set ingress.path="${STAGE_INGRESS_PATH}" \
                         --set ingress.host="${STAGE_INGRESS_HOST}" \
-                        --set env.CONSUL_HOST="${STAGE_CONSUL_HOST}" \
-                        --set env.CONSUL_PORT="${STAGE_CONSUL_PORT}" \
-                        --set env.CONSUL_ACCESS_READ="${STAGE_CONSUL_ACCESS_READ}" \
-                        --set env.CONSUL_PATH="${STAGE_CONSUL_PATH}" \
+                        --set env.CONSUL_HOST="${CONSUL_HOST}" \
+                        --set env.CONSUL_PORT="${CONSUL_PORT}" \
+                        --set env.CONSUL_ACCESS_READ="${CONSUL_ACCESS_READ}" \
+                        --set env.CONSUL_PATH="${CONSUL_PATH}" \
                         --set env.VAULT_HOST="${STAGE_VAULT_HOST}" \
                         --set env.VAULT_PORT="${STAGE_VAULT_PORT}" \
                         --set env.VAULT_PATH="${STAGE_VAULT_PATH}" \

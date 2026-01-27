@@ -12,7 +12,7 @@ load_dotenv()
 CONSUL_HOST = os.getenv("CONSUL_HOST", "localhost")
 CONSUL_PORT = int(os.getenv("CONSUL_PORT", 8500))
 CONSUL_SCHEME = os.getenv("CONSUL_SCHEME", "http")
-CONSUL_PREFIX = os.getenv("CONSUL_PREFIX")
+CONSUL_PATH = os.getenv("CONSUL_PATH")
 CONSUL_ACCESS_READ = os.getenv("CONSUL_ACCESS_READ")
 
 
@@ -42,7 +42,7 @@ def load_settings() -> Settings:
         verify=False,
     )
 
-    index, data = client.kv.get(f"{CONSUL_PREFIX}/data")
+    index, data = client.kv.get(f"{CONSUL_PATH}/data")
     if not data or "Value" not in data:
         raise RuntimeError("Missing config key: data")
 
