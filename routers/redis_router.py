@@ -3,12 +3,12 @@ from models import DataModel
 from services.redis_service import write_to_redis, read_from_redis
 from config import  APP_NAME
 
-router = APIRouter(prefix="/redis", tags=["Redis"])
+router = APIRouter(prefix=f"/{APP_NAME}/redis", tags=["Redis"])
 
-@router.post(f"/{APP_NAME}/write")
+@router.post("/write")
 async def redis_write(data: DataModel):
     return await write_to_redis(data.key, data.value)
 
-@router.get(f"/{APP_NAME}/read/{{key}}")
+@router.get("/read/{key}")
 async def redis_read(key: str):
     return await read_from_redis(key)
