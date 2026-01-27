@@ -16,7 +16,7 @@ logger = logging.getLogger("errors")
 
 setup_logging()
 
-app = FastAPI(title="Multi-Service API", version="1.0.0", docs_url=None, redoc_url=None, openapi_url="/openapi.json")
+app = FastAPI(title="Multi-Service API", version="1.0.0", docs_url=None, redoc_url=None, openapi_url=f"/{APP_NAME}/openapi.json")
 app.mount(f"/{APP_NAME}/static", StaticFiles(directory="static"), name="static")
 
 app.middleware("http")(log_requests)
