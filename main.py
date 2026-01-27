@@ -50,7 +50,7 @@ def custom_swagger_ui():
   <script>
     window.onload = () => {
       SwaggerUIBundle({
-        url: "/openapi.json",
+        url: "/service-check/openapi.json",
         dom_id: "#swagger-ui",
         presets: [
           SwaggerUIBundle.presets.apis,
