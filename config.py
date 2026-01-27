@@ -14,7 +14,7 @@ CONSUL_PORT = int(os.getenv("CONSUL_PORT", 8500))
 CONSUL_SCHEME = os.getenv("CONSUL_SCHEME", "http")
 CONSUL_PATH = os.getenv("CONSUL_PATH")
 CONSUL_ACCESS_READ = os.getenv("CONSUL_ACCESS_READ")
-
+APP_NAME = os.getenv("APP_NAME")
 
 class RedisConfig(BaseModel):
     url: str

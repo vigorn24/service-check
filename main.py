@@ -10,6 +10,7 @@ from fastapi import Response
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
+from config import APP_NAME
 
 logger = logging.getLogger("errors")
 
@@ -26,14 +27,14 @@ async def global_exception_handler(request: Request, exc: Exception):
     logger.exception("Unhandled error: %s %s", request.method, request.url.path)
     raise exc
 
-@app.get("/metrics")
+@app.get(f"/{APP_NAME}/metrics")
 def metrics():
     return Response(
         generate_latest(),
         media_type=CONTENT_TYPE_LATEST
     )
 
-@app.get("/docs", include_in_schema=False)
+@app.get(f"/{APP_NAME}/docs", include_in_schema=False)
 def custom_swagger_ui():
     return HTMLResponse("""
 <!DOCTYPE html>

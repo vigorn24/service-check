@@ -63,5 +63,6 @@ delivery-k8s:
                         --set env.VAULT_PATH="${STAGE_VAULT_PATH}" \
                         --set env.VAULT_ROLE_ID="${STAGE_VAULT_ROLE_ID}" \
                         --set env.VAULT_SECRET_ID="${STAGE_VAULT_SECRET_ID}" \
+                        --set env.APP_NAME="${CI_PROJECT_NAME}" \
                         ${CI_PROJECT_NAME} ./ci/helm --namespace "${NAMESPACE}" -f ./ci/helm/values-stage.yaml
     - helm list -a -n ${NAMESPACE}
