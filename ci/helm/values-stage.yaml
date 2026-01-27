@@ -1,0 +1,46 @@
+# Default values for chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Number of app instances
+replicaCount: 1
+
+# historyLimit: количество historyLimit
+historyLimit: 3
+
+# useStrategy: применять стратегию обновления подов
+useStrategy: true
+
+# progressDeadlineSeconds: максимальное время которое может уйти на деплой прежде чем он будет считаться неудачным
+progressDeadlineSeconds: 600
+
+# Задание необходимых анотаций для ingress
+ingress:
+  enabled: true
+  path: ''
+  host: k8s-stage-fintech.msk.mts.ru
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 15m
+
+# Application target port
+container:
+  ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+#    - name: http-metrics
+#      port: 8081
+#      protocol: TCP
+
+# Лимиты на максимальные и минимальные запрашиваемые ресурсы
+resources:
+  limits:
+    cpu: 500m
+    memory: 640Mi
+  requests:
+    cpu: 50m
+    memory: 640Mi

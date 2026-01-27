@@ -18,9 +18,47 @@ image_build:
     - set -x
     - if [ "$CI_COMMIT_BRANCH" == "master" ] ; then ENVIRONMENT=stage ; fi
     - if [ "$CI_COMMIT_BRANCH" == "production" ] ; then ENVIRONMENT=prod ; fi
-    - BUILD_IMAGE_PATH=$( echo ${HARBOR}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME} | tr [:upper:] [:lower:] )
+    - IMAGEREPOSITORY=$( echo ${HARBOR}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME} | tr [:upper:] [:lower:] )
     - docker login --username="${REGISTRY_USER_FINTECH}" --password="${REGISTRY_PASSWORD_FINTECH}" ${HARBOR}
-    - docker build --pull -t ${BUILD_IMAGE_PATH}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA} .
-    - docker push ${BUILD_IMAGE_PATH}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+    - docker build --pull -t ${IMAGEREPOSITORY}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA} .
+    - docker push ${IMAGEREPOSITORY}:${CI_COMMIT_SHORT_SHA}
 
 
+delivery-k8s:
+  stage: delivery-k8s
+  tags:
+    - ${STAGE_RUNNER_TAG}
+  environment:
+    name: stage
+  variables:
+    NAMESPACE: ${STAGE_NAMESPACE}
+  image: sregistry.mts.ru/fintech/base-images/kubectl-helm:v1.24.3-v3.9.3
+  script:
+    - set -x
+    - IMAGEREPOSITORY=$( echo ${HARBOR}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME} | tr [:upper:] [:lower:] )
+    - STAGE_INGRESS_PATH='/('${CI_PROJECT_NAME}'(/|$)(.*))'
+    - echo ${STAGE_INGRESS_PATH}
+    - export KUBECONFIG=${STAGE_KUBECONFIG}
+    - helm list -a -n ${NAMESPACE}
+    - >
+      helm upgrade --install --wait --atomic --timeout 600s --cleanup-on-fail  \
+                        --set name="${CI_PROJECT_NAME}" \
+                        --set namespace="${STAGE_NAMESPACE}" \
+                        --set environment=stage \
+                        --set image.imageRepository="${IMAGEREPOSITORY}" \
+                        --set image.imageTag="${CI_COMMIT_SHORT_SHA}" \
+                        --set ingress.metrics.host="${STAGE_INGRESS_METRIC_HOST}" \
+                        --set useStrategy=true \
+                        --set ingress.path="${STAGE_INGRESS_PATH}" \
+                        --set ingress.host="${STAGE_INGRESS_HOST}" \
+                        --set env.CONSUL_HOST="${STAGE_CONSUL_HOST}" \
+                        --set env.CONSUL_PORT="${STAGE_CONSUL_PORT}" \
+                        --set env.CONSUL_ACCESS_READ="${STAGE_CONSUL_ACCESS_READ}" \
+                        --set env.CONSUL_PATH="${STAGE_CONSUL_PATH}" \
+                        --set env.VAULT_HOST="${STAGE_VAULT_HOST}" \
+                        --set env.VAULT_PORT="${STAGE_VAULT_PORT}" \
+                        --set env.VAULT_PATH="${STAGE_VAULT_PATH}" \
+                        --set env.VAULT_ROLE_ID="${STAGE_VAULT_ROLE_ID}" \
+                        --set env.VAULT_SECRET_ID="${STAGE_VAULT_SECRET_ID}" \
+                        ${CI_PROJECT_NAME} ./ci/helm --namespace "${NAMESPACE}" -f ./ci/helm/values-stage.yaml
+    - helm list -a -n ${NAMESPACE}

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.name }}-svc
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.name }}
+    environment: {{ .Values.environment }}
+#    monitoring: {{ .Values.monitoring }}
+spec:
+  selector:
+    app: {{ .Values.name }}
+  type: ClusterIP
+  ports:
+{{- range .Values.container.ports }}
+    - name: {{ .name }}
+      port: {{ .port }}
+      targetPort: {{ .name }}
+      protocol: {{ .protocol }}
+{{- end }}
