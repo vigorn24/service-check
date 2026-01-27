@@ -41,12 +41,12 @@ def custom_swagger_ui():
 <html>
 <head>
   <title>Swagger UI</title>
-  <link rel="stylesheet" type="text/css" href="/static/swagger/swagger-ui.css" />
+  <link rel="stylesheet" type="text/css" href="/service-check/static/swagger/swagger-ui.css" />
 </head>
 <body>
   <div id="swagger-ui"></div>
-  <script src="/static/swagger/swagger-ui-bundle.js"></script>
-  <script src="/static/swagger/swagger-ui-standalone-preset.js"></script>
+  <script src="/service-check/static/swagger/swagger-ui-bundle.js"></script>
+  <script src="/service-check/static/swagger/swagger-ui-standalone-preset.js"></script>
   <script>
     window.onload = () => {
       SwaggerUIBundle({
