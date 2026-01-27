@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копируем проект
 COPY . .
 
-EXPOSE 8000
+EXPOSE 8080
 
 # Команда запуска
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]

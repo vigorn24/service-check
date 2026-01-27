@@ -3,7 +3,7 @@ services:
   app:
     image: sregistry.mts.ru/fintech/ewtdevops/apps/service-check/master:546376b9
     ports:
-      - "8000:8000"
+      - "8080:8080"
     environment:
       - NODE_ENV=Stage
     env_file:
