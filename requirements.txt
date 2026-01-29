@@ -7,3 +7,4 @@ logging
 prometheus-client
 python-consul
 PyYAML
+asyncio
