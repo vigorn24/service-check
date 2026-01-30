@@ -1,12 +1,6 @@
-Swagger UI с терминалки интеграционного контура - http://k8s-stage-fintech.msk.mts.ru/service-check/docs
-
-Метрики с терминалки интеграционного контура - http://k8s-stage-fintech.msk.mts.ru/service-check/docs
-
 
 Запуск сервиса
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-
-
 
 Структура проекта
 
