@@ -1,4 +1,4 @@
-from redis.asyncio.cluster import RedisCluster
+from redis.asyncio.cluster import RedisCluster, ClusterNode
 from config import settings
 import logging
 from utils.logging_decorators import log_call
@@ -10,8 +10,28 @@ import asyncio
 
 logger = logging.getLogger(__name__)
 
+
+def parse_redis_cluster_url(url_string):
+    """
+    Преобразует строку с адресами Redis Cluster в список объектов ClusterNode
+
+    Пример входной строки:
+    "10.72.16.86:6379,10.72.16.87:6379,10.72.16.88:6379,10.72.16.86:6380,10.72.16.87:6380,10.72.16.88:6380"
+    """
+
+    # Разбиваем строку на отдельные хосты
+    nodes_str = url_string.split(',')
+
+    # Создаем список ClusterNode
+    startup_nodes = []
+    for node_str in nodes_str:
+        host, port = node_str.split(':')
+        startup_nodes.append(ClusterNode(host.strip(), int(port.strip())))
+
+    return startup_nodes
+
 redis_client = RedisCluster.from_url(
-    settings.redis.url,
+    startup_nodes=parse_redis_cluster_url(settings.redis.url),
     username=settings.redis.user,
     password=settings.redis.password,
     decode_responses=True
