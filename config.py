@@ -18,6 +18,7 @@ APP_NAME = os.getenv("APP_NAME")
 
 class RedisConfig(BaseModel):
     url: str
+    user: str = "default"
     password: str | None = None
 
 
