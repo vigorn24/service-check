@@ -30,7 +30,7 @@ def parse_redis_cluster_url(url_string):
 
     return startup_nodes
 
-redis_client = RedisCluster.from_url(
+redis_client = RedisCluster(
     startup_nodes=parse_redis_cluster_url(settings.redis.url),
     username=settings.redis.user,
     password=settings.redis.password,
